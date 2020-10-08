@@ -1,0 +1,188 @@
+{% extends "layout.html" %}
+{% block title %}
+    Character Info
+{% endblock %}
+{% block nav %}
+    <li class="nav-item"><a class="nav-link" href="/character">Character Info</a></li>
+{% endblock %}
+
+{% block main %}
+    <div class="row" style="text-align: center;">
+
+        <h2 class="col-2">
+
+            <div style="margin: 10px 5px;">Hit Points:</div>
+            <div style="text-align: center;">
+                <input type="text" id="hp" onkeyup="save()" style="width:60px; height:50px; padding: 5px; text-align: center;"></input>
+            </div>
+
+            <div style="margin: 20px 5px 0px;">Temporary</div>
+            <div style="margin: 0px 5px 10px;">Hit Points:</div>
+            <div style="text-align: center;">
+                <input type="text" id="thp" onkeyup="save()" style="width:60px; height:50px; padding: 5px; text-align: center;"></input>
+            </div>
+
+            <div style="font-size:x-large; margin: 20px 5px 5px;">Death Saves</div>
+
+            <table style="font-size:large; align-items: center;">
+                <tr>
+                    <th>
+                        Successes
+                    </th>
+                    <td>
+                        <input id="1" onchange="check()" type="checkbox"></input>
+                    </td>
+                    <td>
+                        <input id="2" onchange="check()" type="checkbox"></input>
+                    </td>
+                    <td>
+                        <input id="3" onchange="check()" type="checkbox"></input>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Failures
+                    </th>
+                    <td>
+                        <input id="4" onchange="check()" type="checkbox"></input>
+                    </td>
+                    <td>
+                        <input id="5" onchange="check()" type="checkbox"></input>
+                    </td>
+                    <td>
+                        <input id="6" onchange="check()" type="checkbox"></input>
+                    </td>
+                </tr>
+            </table>
+        </h2>
+
+        <div class="col-7">
+
+            <div style="font-size: x-large;">Weapons</div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Weapon</th>
+                        <th>Bonus</th>
+                        <th>Damage</th>
+                        <th>Damage Type</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in weaps %}
+                    <tr>
+                        <td>{{ row["weapon"] }}</td>
+                        <td>{{ row["bonus"] }}</td>
+                        <td>{{ row["dicenum"] }}d{{ row["dicetype"] }}</td>
+                        <td>{{ row["damtype"] }}</td>
+                        <form action="/weapon_attack" method="post">
+                            <td><button type = "submit" class="btn btn-secondary" style="background-color: red;" name="weapon_attack" value="{{ row['weapon'] }}" role="button">
+                            Attack with {{ row["weapon"] }}
+                            </button></td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div style="font-size: x-large;">Attack Spells</div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Spell</th>
+                        <th>Damage</th>
+                        <th>Damage Type</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in spells %}
+                    <tr>
+                        <td>{{ row["spell"] }}</td>
+                        <td>{{ row["dicenum"] }}d{{ row["dicetype"] }}</td>
+                        <td>{{ row["damtype"] }}</td>
+                        <form action="/spell_attack" method="post">
+                            <td><button type = "submit" class="btn btn-secondary" style="background-color: red;" name="spell_attack" value="{{ row['spell'] }}" role="button">
+                            Cast {{ row["spell"] }}
+                            </button></td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-2">
+            <ul>Saving Throws:</ul>
+
+            <ul><form action="/saving_throw" method="post">
+                <td><button type = "submit" class="btn btn-secondary" style="width: 95px;" name="saving_throw" value="st_str" role="button">
+                    Strength
+                </button></td>
+            </form></ul>
+
+            <ul><form action="/saving_throw" method="post">
+                <td><button type = "submit" class="btn btn-secondary" style="width: 95px;" name="saving_throw" value="st_dex" role="button">
+                    Dexterity
+                </button></td>
+            </form></ul>
+
+            <ul><form action="/saving_throw" method="post">
+                <td><button type = "submit" class="btn btn-secondary" style="width: 95px;" name="saving_throw" value="st_con" role="button">
+                    Constitution
+                </button></td>
+            </form></ul>
+
+            <ul><form action="/saving_throw" method="post">
+                <td><button type = "submit" class="btn btn-secondary" style="width: 95px;" name="saving_throw" value="st_int" role="button">
+                    Intelligence
+                </button></td>
+            </form></ul>
+
+            <ul><form action="/saving_throw" method="post">
+                <td><button type = "submit" class="btn btn-secondary" style="width: 95px;" name="saving_throw" value="st_wis" role="button">
+                    Wisdom
+                </button></td>
+            </form></ul>
+
+            <ul><form action="/saving_throw" method="post">
+                <td><button type = "submit" class="btn btn-secondary" style="width: 95px;" name="saving_throw" value="st_cha" role="button">
+                    Charisma
+                </button></td>
+            </form></ul>
+
+        </div>
+    </div>
+    <script>
+
+        document.getElementById("hp").value = sessionStorage.getItem("hits");
+        document.getElementById("thp").value = sessionStorage.getItem("thits");
+
+        function save(){
+            sessionStorage.setItem("hits", document.getElementById("hp").value);
+            sessionStorage.setItem("thits", document.getElementById("thp").value);
+        }
+
+        for (let i = 1; i < 7; i++){
+            if (sessionStorage.getItem(i) == "t"){
+                document.getElementById(i).checked = true;
+            }
+            else{
+                document.getElementById(i).checked = false;
+            }
+        }
+
+        function check(){
+            for (let i = 1; i < 7; i++){
+                if (document.getElementById(i).checked == true){
+                    sessionStorage.setItem(i, "t");
+                }
+                else {
+                    sessionStorage.setItem(i, "f");
+                }
+            }
+        };
+
+    </script>
+{% endblock %}

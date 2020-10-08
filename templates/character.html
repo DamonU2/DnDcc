@@ -1,0 +1,132 @@
+{% extends "layout.html" %}
+{% block title %}
+    Character Info
+{% endblock %}
+{% block nav %}
+    <li class="nav-item"><a class="nav-link" href="/combat">Combat</a></li>
+{% endblock %}
+
+{% block main %}
+    <h2>
+        {{ char["name"] }}, a level {{ char["level"] }} {{ char["class"] }}
+    </h2>
+
+    <div class="row">
+        <div class="col-1">
+            <table>
+                <tr>
+                    <th>Strength</th>
+                </tr>
+                <tr>
+                    <td style="font-size: xx-large;">{{ atts["str"] }}</td>
+                </tr>
+                <tr>
+                    <th>Dexterity</th>
+                </tr>
+                <tr>
+                    <td style="font-size: xx-large;">{{ atts["dex"] }}</td>
+                </tr>
+                <tr>
+                    <th>Constitution</th>
+                </tr>
+                <tr>
+                    <td style="font-size: xx-large;">{{ atts["con"] }}</td>
+                </tr>
+                <tr>
+                    <th>Intelligence</th>
+                </tr>
+                <tr>
+                    <td style="font-size: xx-large;">{{ atts["int"] }}</td>
+                </tr>
+                <tr>
+                    <th>Wisdom</th>
+                </tr>
+                <tr>
+                    <td style="font-size: xx-large;">{{ atts["wis"] }}</td>
+                </tr>
+                <tr>
+                    <th>Charisma</th>
+                </tr>
+                <tr>
+                    <td style="font-size: xx-large;">{{ atts["cha"] }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a class="btn btn-secondary" href="/update">Update</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col-6">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Weapon</th>
+                        <th>Bonus</th>
+                        <th>Damage</th>
+                        <th>Damage Type</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in weaps %}
+                    <tr>
+                        <td>{{ row["weapon"] }}</td>
+                        <td>{{ row["bonus"] }}</td>
+                        <td>{{ row["dicenum"] }}d{{ row["dicetype"] }}</td>
+                        <td>{{ row["damtype"] }}</td>
+                        <form action="/delete_weapon" method="post">
+                            <td><button type = "submit" class="btn btn-secondary" style="background-color: red;" name="delete_weapon" value="{{ row['weapon'] }}" role="button">
+                            Delete
+                            </button></td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <a class="btn btn-secondary" href="/weapon" role="button">Add New Weapon</a>
+
+        </div>
+
+        <div class="col-5">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Spell</th>
+                        <th>Damage</th>
+                        <th>Damage Type</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in spells %}
+                    <tr>
+                        <td>{{ row["spell"] }}</td>
+                        <td>{{ row["dicenum"] }}d{{ row["dicetype"] }}</td>
+                        <td>{{ row["damtype"] }}</td>
+                        <form action="/delete_spell" method="post">
+                            <td><button type = "submit" class="btn btn-secondary" style="background-color: red;" name="delete_spell" value="{{ row['spell'] }}" role="button">
+                            Delete
+                            </button></td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <a class="btn btn-secondary" href="/spell" role="button">Add New Attack Spell</a>
+
+        </div>
+    </div>
+
+    <form action="/init" method="post">
+            <button type = "submit" class="btn btn-secondary" style="background-color: red;" role="button">
+            Roll for initiative and go to combat page!</button>
+    </form>
+{% endblock %}

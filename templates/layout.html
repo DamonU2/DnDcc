@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- documentation at http://getbootstrap.com/docs/4.1/, alternative themes at https://bootswatch.com/ -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+        <link href='https://fonts.googleapis.com/css?family=Macondo' rel='stylesheet'>
+        <link href='https://fonts.googleapis.com/css?family=Marcellus SC' rel='stylesheet'>
+        <link href='https://fonts.googleapis.com/css?family=Uncial Antiqua' rel='stylesheet'>
+        <link href="/static/styles.css" rel="stylesheet">
+
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        <script>
+            function rollDice(max) {
+                return 1 + Math.floor(Math.random() * max)
+            }
+            function popRoll(dicenum, dicetype) {
+                for (let i = 0; i < dicenum; i++){
+                    rollDice(dicetype)
+                }
+            }
+        </script>
+
+        <title>D&D CC: {% block title %}{% endblock %}</title>
+
+    </head>
+
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light border">
+
+            <a class="navbar-brand"><span>D&D Combat Companion</span></a>
+
+            <button class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbar" role="navigation">
+                {% if session.charid %}
+                    <ul class="navbar-nav ml-auto mt-2">
+                        <li class="nav-item"><a class="nav-link" href="/">Change Character</a></li>
+                        {% block nav %}{% endblock %}
+                        <li class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                            <button id="rollclick" class="btn btn-secondary" data-toggle="modal" data-target="#rollDiceModal">
+                                Roll:</button>
+                            <select id="roll" class="btn"  style="background-color: lightgrey; border-style: none;">
+                                <option value="20">d20</option>
+                                <option value="12">d12</option>
+                                <option value="10">d10</option>
+                                <option value="8">d8</option>
+                                <option value="6">d6</option>
+                                <option value="4">d4</option>
+                            </select>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                    </ul>
+                {% elif not session.userid %}
+                    <ul class="navbar-nav ml-auto mt-2">
+                        <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+                    </ul>
+                {% else %}
+                    <ul class="navbar-nav ml-auto mt-2">
+                        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+        </nav>
+
+        <script>
+
+            document.getElementById("rollclick").onclick = function(){
+                var d = document.getElementById("roll").value;
+                document.getElementById("result").innerHTML = rollDice(d);
+                }
+    
+        </script>
+    
+        <div class="modal fade" id="rollDiceModal" tabindex="-1" role="dialog" aria-labelledby="DiceRoll" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="DiceRoll">You rolled:</h5>
+              </div>
+              <div class="modal-body" id="result">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% if get_flashed_messages() %}
+            <header>
+                <div class="alert alert-warning border text-center" role="alert">
+                    {{ get_flashed_messages() | join(" ") }}
+                </div>
+            </header>
+        {% endif %}
+
+        <main class="container-lg p-3">
+            {% block main %}{% endblock %}
+        </main>
+
+    </body>
+
+</html>

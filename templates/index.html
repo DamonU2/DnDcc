@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block title %}
+    Characters
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped">
+
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Class</th>
+                <th>Level</th>
+                <th>Select</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for row in char %}
+                <tr>
+                    <td>{{row["name"]}}</td>
+                    <td>{{row["class"]}}</td>
+                    <td>{{row["level"]}}</td>
+                    <form action="/character" method="post">
+                        <td><button type = "submit" class="btn btn-secondary" name="pick" value="{{ row['name'] }}" role="button">
+                            Pick {{ row["name"] }}
+                        </button></td>
+                    </form>
+                    <form action="/delete_character" method="post">
+                            <td><button type = "submit" class="btn btn-secondary" style="background-color: red;" name="delete_character" value="{{ row['charid'] }}" role="button">
+                            Delete
+                            </button></td>
+                    </form>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    <a class="btn btn-secondary" href="/new_character" role="button">Create New Character</a>
+
+{% endblock %}

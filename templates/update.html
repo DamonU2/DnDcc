@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+{% block title %}
+    Update Character
+{% endblock %}
+
+{% block main %}
+    <form action="/update" method="post">
+
+        <div class="form-group">
+            Level
+            <select id="level" class="form-control" name="level">
+                {% for i in range(1,21) %}
+                    <option>{{i}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            Strength
+            <select id="str" class="form-control" name="str">
+                {% for i in range(3,21) %}
+                    <option>{{i}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            Dexterity
+            <select id="dex" class="form-control" name="dex">
+                {% for i in range(3,21) %}
+                    <option>{{i}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            Constitution
+            <select id="con" class="form-control" name="con">
+                {% for i in range(3,21) %}
+                    <option>{{i}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            Intelligence
+            <select id="int" class="form-control" name="int">
+                {% for i in range(3,21) %}
+                    <option>{{i}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            Wisdom
+            <select id="wis" class="form-control" name="wis">
+                {% for i in range(3,21) %}
+                    <option>{{i}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            Charisma
+            <select id="cha" class="form-control" name="cha">
+                {% for i in range(3,21) %}
+                    <option>{{i}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button class="btn btn-secondary" type="submit">Update</button>
+    </form>
+    <script>
+        function setSelectedIndex(s, i){
+            s.options[i-3].selected = true;
+            return;
+
+        }
+
+        setSelectedIndex(document.getElementById("str"), {{ atts["str"] }});
+        setSelectedIndex(document.getElementById("dex"), {{ atts["dex"] }});
+        setSelectedIndex(document.getElementById("con"), {{ atts["con"] }});
+        setSelectedIndex(document.getElementById("int"), {{ atts["int"] }});
+        setSelectedIndex(document.getElementById("wis"), {{ atts["wis"] }});
+        setSelectedIndex(document.getElementById("cha"), {{ atts["cha"] }});
+
+        setSelectedIndex(document.getElementById("level"), {{ level + 2 }});
+    </script>
+{% endblock %}

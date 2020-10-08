@@ -1,0 +1,55 @@
+nav .navbar-brand{
+    font-family: Uncial Antiqua;
+    font-size: xx-large;
+}
+
+nav .navbar{
+    font-family: Uncial Antiqua;
+}
+
+nav {
+    background-image: url('old_paper.jpg');
+    color: black;
+}
+
+main .form-control{
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+main{
+    /* scroll horizontally as needed */
+    overflow-x: auto;
+
+    /* center contents */
+    text-align: center;
+
+    font-family: Macondo;
+    font-weight: bold;
+}
+
+body{
+    font-family: Macondo;
+    font-weight: bold;
+    background-image: url('old_paper.jpg');
+}
+
+row{
+    text-align: center;
+    padding: 25px 50px;
+}
+
+.modal-body{
+    font-size: xx-large;
+}
+
+.btn-secondary{
+    padding: 5px;
+}
+
+.checkbox-bad{
+    background-color: red;
+}
