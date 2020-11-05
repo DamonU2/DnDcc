@@ -1,3 +1,5 @@
+This was originally done as my final project for Harvard's CS50 course, I have rewritten it in Django and updated it in my portfolio.
+
 My wife decided that coronavirus lockdown was a good time to learn to play Dungeons and Dragons, so I've been learning along with her.
 I have made a site that automates attacks, and tracks other crucial information for the user.
 The D&D Combat Companion site allows you to register, create characters and enter their level and abilities,
